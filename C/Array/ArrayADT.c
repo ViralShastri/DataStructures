@@ -98,6 +98,22 @@ int bSearch(struct Array *array, int key)
     return -1;
 }
 
+int rBSearch(struct Array *array, int key, int low, int high)
+{
+    int mid = 0;
+    if (high > low)
+    {
+        mid = (low + high) / 2;
+        if (array->arr[mid] == key)
+            return mid;
+        else if (key < array->arr[mid])
+            return rBSearch(array, key, low, mid - 1);
+        else if (key > array->arr[mid])
+            return rBSearch(array, key, mid + 1, high);
+    }
+    return -1;
+}
+
 int main()
 {
     struct Array array = {10, 5, (int *)malloc(10 * sizeof(int))};
@@ -114,5 +130,7 @@ int main()
     display(&array);
     printf("\n%d", lSearch(&array, 29));
     printf("\n%d", bSearch(&array, 29));
+    printf("\n%d", rBSearch(&array, 30, 0, array.length));
     return 0;
 }
+
