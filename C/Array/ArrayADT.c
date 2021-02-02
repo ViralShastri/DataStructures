@@ -178,6 +178,55 @@ int avg(struct Array *array)
     return sum / array->length;
 }
 
+void reverse(struct Array *array)
+{
+    int temp;
+    for (int i = 0, j = array->length - 1; i < j; i++, j--)
+    {
+        temp = array->arr[i];
+        array->arr[i] = array->arr[j];
+        array->arr[j] = temp;
+    }
+}
+
+void lShift(struct Array *array)
+{
+    for (int i = 0; i < array->length; i++)
+    {
+        array->arr[i] = array->arr[i + 1];
+    }
+    array->arr[array->length - 1] = 0;
+}
+
+void rShift(struct Array *array)
+{
+    for (int i = array->length - 1; i > 0; i--)
+    {
+        array->arr[i] = array->arr[i - 1];
+    }
+    array->arr[0] = 0;
+}
+
+void lRotate(struct Array *array)
+{
+    int x = array->arr[0];
+    for (int i = 0; i < array->length; i++)
+    {
+        array->arr[i] = array->arr[i + 1];
+    }
+    array->arr[array->length - 1] = x;
+}
+
+void rRotate(struct Array *array)
+{
+    int x = array->arr[array->length - 1];
+    for (int i = array->length - 1; i > 0; i--)
+    {
+        array->arr[i] = array->arr[i - 1];
+    }
+    array->arr[0] = x;
+}
+
 int main()
 {
     struct Array *array = (struct Array *)malloc(sizeof(struct Array)); // Dynamic Structure Memory Allocation
@@ -205,8 +254,8 @@ int main()
     display(array);
 
     // Searching
-    printf("\n%d", lSearch(array, 29));                    // Linear Seach
-    printf("\n%d", bSearch(array, 29));                    // Binary Seach Itrative
+    printf("\n%d", lSearch(array, 29));                    // Linear Search
+    printf("\n%d", bSearch(array, 29));                    // Binary Search Iterative
     printf("\n%d", rBSearch(array, 30, 0, array->length)); // Binary Search Recursive
 
     // Get(), Set(), Avg(), Max(), Min(), Sum()
@@ -218,6 +267,28 @@ int main()
     printf("\n%d", max(array));
     printf("\n%d", min(array));
     printf("\n%d\n", sum(array));
+
+    // Reverse Array
+    display(array);
+    printf("\n");
+    reverse(array); // Mutating Existing Array
+    display(array);
+
+    // Shifting Array
+    printf("\n");
+    lShift(array); // Left Shifting Array
+    display(array);
+    printf("\n");
+    rShift(array); // Right Shifting Array
+    display(array);
+
+    // Rotating Array
+    printf("\n");
+    lRotate(array); // Left Rotating Array
+    display(array);
+    printf("\n");
+    rRotate(array); // Right Rotating Array
+    display(array);
 
     return 0;
 }
