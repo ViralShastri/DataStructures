@@ -48,7 +48,7 @@ void insert(struct Array *array, int index, int ele)
     }
 }
 
-int delete (struct Array *array, int index)
+int del(struct Array *array, int index)
 {
     int x = -1;
     if (index >= 0 && index < array->length)
@@ -114,23 +114,110 @@ int rBSearch(struct Array *array, int key, int low, int high)
     return -1;
 }
 
-int main()
+int get(struct Array *array, int index)
 {
-    struct Array array = {10, 5, (int *)malloc(10 * sizeof(int))};
-    for (int i = 0; i < array.length; i++)
+    if (index >= 0 && index < array->length)
     {
-        array.arr[i] = (i + 1) * 5;
+        return array->arr[index];
     }
-    add(&array, 30);
-    insert(&array, 0, 0);
-    display(&array);
-    printf("\n%d\n", delete (&array, 0));
-    display(&array);
-    printf("\n%d\n", delete (&array, 3));
-    display(&array);
-    printf("\n%d", lSearch(&array, 29));
-    printf("\n%d", bSearch(&array, 29));
-    printf("\n%d", rBSearch(&array, 30, 0, array.length));
-    return 0;
 }
 
+void set(struct Array *array, int index, int value)
+{
+    if (index >= 0 && index < array->length)
+    {
+        array->arr[index] = value;
+    }
+}
+
+int max(struct Array *array)
+{
+    int max = array->arr[0];
+
+    for (int i = 1; i < array->length; i++)
+    {
+        if (array->arr[i] > max)
+        {
+            max = array->arr[i];
+        }
+    }
+    return max;
+}
+
+int min(struct Array *array)
+{
+    int min = array->arr[0];
+
+    for (int i = 1; i < array->length; i++)
+    {
+        if (array->arr[i] < min)
+        {
+            min = array->arr[i];
+        }
+    }
+    return min;
+}
+
+int sum(struct Array *array)
+{
+    int sum = 0;
+    for (int i = 0; i < array->length; i++)
+    {
+        sum += array->arr[i];
+    }
+    return sum;
+}
+
+int avg(struct Array *array)
+{
+    int sum = 0;
+    for (int i = 0; i < array->length; i++)
+    {
+        sum += array->arr[i];
+    }
+    return sum / array->length;
+}
+
+int main()
+{
+    struct Array *array = (struct Array *)malloc(sizeof(struct Array)); // Dynamic Structure Memory Allocation
+    (*array).size = 10;                                                 // Size of continuos heap memory
+    (*array).length = 5;                                                // Length of Array
+    (*array).arr = (int *)malloc(10 * sizeof(int));                     // Dynamic Array Memory Allocation
+
+    // Populating Array
+    for (int i = 0; i < array->length; i++)
+    {
+        array->arr[i] = (i + 1) * 5;
+    }
+
+    // Insertion
+    add(array, 30);
+    insert(array, 0, 0);
+
+    // Display
+    display(array);
+
+    // Deletion
+    printf("\n%d\n", del(array, 0));
+    display(array);
+    printf("\n%d\n", del(array, 3));
+    display(array);
+
+    // Searching
+    printf("\n%d", lSearch(array, 29));                    // Linear Seach
+    printf("\n%d", bSearch(array, 29));                    // Binary Seach Itrative
+    printf("\n%d", rBSearch(array, 30, 0, array->length)); // Binary Search Recursive
+
+    // Get(), Set(), Avg(), Max(), Min(), Sum()
+    display(array);
+    printf("\n%d\n", get(array, 4));
+    set(array, 4, 50);
+    display(array);
+    printf("\n%d", avg(array));
+    printf("\n%d", max(array));
+    printf("\n%d", min(array));
+    printf("\n%d\n", sum(array));
+
+    return 0;
+}
